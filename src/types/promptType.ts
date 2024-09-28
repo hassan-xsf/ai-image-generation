@@ -1,6 +1,8 @@
 export type PromptType = {
-    data: Array<{
-        imageLink: string;
-        imageText: string;
-    }>;
+    data: Array<Prompt>;
 };
+
+export type Prompt = {
+    imageLink: string;
+    imageText: string;
+}

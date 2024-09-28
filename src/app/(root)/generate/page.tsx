@@ -3,24 +3,28 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import Image from 'next/image'
-import type { PromptType } from '@/types/promptType'
+import type { PromptType , Prompt} from '@/types/promptType'
 import axios, { AxiosError } from 'axios'
 import { Button } from '@/components/ui/button'
 
 const Generate = () => {
 
     const { register, handleSubmit } = useForm()
-    const [prompt, setPrompt] = useState<"Loading" | "Loaded">("Loading")
+    const [promptStatus, setPromptStatus] = useState<"Still" | "Loading Data" | "Loading Images" | "Loaded">("Still")
     const [promptData, setpromptData] = useState<null | PromptType>(null)
 
     const onGenerate = async () => {
         try {
-            setPrompt("Loading")
+            setPromptStatus("Loading Data")
             const res = await axios.post('api/v1/video')
-            await axios.get(res.data.data.data[0].imageLink)
             console.log(res.data.data.data)
+
+            setPromptStatus("Loading Images")
+            
+            const promises = res.data.data.data.map((e : Prompt) => axios.get(e.imageLink))
+            await Promise.all(promises)
             setpromptData(res.data.data)
-            setPrompt("Loaded")
+            setPromptStatus("Loaded")
 
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -42,10 +46,10 @@ const Generate = () => {
                 <Input {...register("prompt")} className="text-white my-4 w-96" type="text" placeholder="Enter your prompt" />
                 <Button className="bg-red-600 hover:bg-red-900">Enter</Button>
             </form>
-            <h4 className="text-xl font-light text-zinc-200 italic pb-4">Generated using prompt: None</h4>
+            <h4 className="text-xl font-light text-zinc-200 italic pb-4">Stage: {promptStatus}</h4>
             <div className="grid grid-cols-3 gap-2 rounded-md h-[30vh] w-1/3">
                 {
-                    prompt === "Loaded" && promptData != null && (
+                    promptStatus === "Loaded" && promptData != null && (
                         promptData.data.map((e, indx) => (
                             <Image
                                 src={e.imageLink}
