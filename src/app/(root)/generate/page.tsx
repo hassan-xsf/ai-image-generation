@@ -17,6 +17,7 @@ const Generate = () => {
         try {
             setPrompt("Loading")
             const res = await axios.post('api/v1/video')
+            await axios.get(res.data.data.data[0].imageLink)
             console.log(res.data.data.data)
             setpromptData(res.data.data)
             setPrompt("Loaded")
@@ -45,8 +46,14 @@ const Generate = () => {
             <div className="grid grid-cols-3 gap-2 rounded-md h-[30vh] w-1/3">
                 {
                     prompt === "Loaded" && promptData != null && (
-                        promptData.data.map((e , indx) => (
-                            <Image src = {e.imageLink} alt = {e.imageText} key = {indx} width = "1024" height = "1024" placeholder="blur" blurDataURL="data:image/svg+xml;base64,..."/>
+                        promptData.data.map((e, indx) => (
+                            <Image
+                                src={e.imageLink}
+                                alt={e.imageText}
+                                key={indx}
+                                width="600" height="600"
+                                priority
+                            />
                         ))
                     )
                 }
