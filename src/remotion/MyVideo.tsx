@@ -1,12 +1,14 @@
-import { Img, useCurrentFrame, interpolate, Easing, AbsoluteFill } from 'remotion';
+import { Img, useCurrentFrame, staticFile, interpolate, Audio } from 'remotion';
 
 
 
-const images = [
-    'https://image.pollinations.ai/prompt/A%20bumblebee%20bat%20in%20flight%20over%20a%20lush%20jungle%20at%20sunset%20with%20the%20sun%20casting%20golden%20rays%20through%20the%20leaves%20%20highly%20detailed%20realistic%20photography%20style%20wildlife%20photography%20by%20David%20Yarrow',
-    'https://image.pollinations.ai/prompt/A%20vibrant%20underwater%20view%20of%20the%20Great%20Barrier%20Reef%20with%20colorful%20corals%20and%20a%20variety%20of%20tropical%20fish%20swimming%20around%20highly%20detailed%20realistic%20underwater%20photography%20style%20ocean%20photography%20by%20David%20Doubilet',
-    'https://image.pollinations.ai/prompt/A%20close-up%20of%20a%20piece%20of%20birch%20bark%20tar%20chewing%20gum%20resting%20on%20a%20stone%20tool%20in%20a%20dark%20and%20mysterious%20forest%20setting%20highly%20detailed%20realistic%20photography%20style%20archaeology%20photography%20by%20Steve%20McCurry',
-];
+// const images = [
+//     'https://image.pollinations.ai/prompt/A%20bumblebee%20bat%20in%20flight%20over%20a%20lush%20jungle%20at%20sunset%20with%20the%20sun%20casting%20golden%20rays%20through%20the%20leaves%20%20highly%20detailed%20realistic%20photography%20style%20wildlife%20photography%20by%20David%20Yarrow',
+//     'https://image.pollinations.ai/prompt/A%20vibrant%20underwater%20view%20of%20the%20Great%20Barrier%20Reef%20with%20colorful%20corals%20and%20a%20variety%20of%20tropical%20fish%20swimming%20around%20highly%20detailed%20realistic%20underwater%20photography%20style%20ocean%20photography%20by%20David%20Doubilet',
+//     'https://image.pollinations.ai/prompt/A%20close-up%20of%20a%20piece%20of%20birch%20bark%20tar%20chewing%20gum%20resting%20on%20a%20stone%20tool%20in%20a%20dark%20and%20mysterious%20forest%20setting%20highly%20detailed%20realistic%20photography%20style%20archaeology%20photography%20by%20Steve%20McCurry',
+//     'https://image.pollinations.ai/prompt/A%20bumblebee%20bat%20in%20flight%20over%20a%20lush%20jungle%20at%20sunset%20with%20the%20sun%20casting%20golden%20rays%20through%20the%20leaves%20%20highly%20detailed%20realistic%20photography%20style%20wildlife%20photography%20by%20David%20Yarrow',
+//     'https://image.pollinations.ai/prompt/A%20vibrant%20underwater%20view%20of%20the%20Great%20Barrier%20Reef%20with%20colorful%20corals%20and%20a%20variety%20of%20tropical%20fish%20swimming%20around%20highly%20detailed%20realistic%20underwater%20photography%20style%20ocean%20photography%20by%20David%20Doubilet',
+// ];
 
 type Caption = {
     text: string,
@@ -15,875 +17,905 @@ type Caption = {
     confidence: number,
     speaker: null;
 }
+const captions: Array<Caption> =
+    [
+        {
+            "text": "The",
+            "start": 640,
+            "end": 776,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "worlds",
+            "start": 776,
+            "end": 1168,
+            "confidence": 0.49874,
+            "speaker": null
+        },
+        {
+            "text": "largest",
+            "start": 1190,
+            "end": 1702,
+            "confidence": 0.99991,
+            "speaker": null
+        },
+        {
+            "text": "snowflake",
+            "start": 1766,
+            "end": 2390,
+            "confidence": 0.77848,
+            "speaker": null
+        },
+        {
+            "text": "on",
+            "start": 2430,
+            "end": 2630,
+            "confidence": 0.99945,
+            "speaker": null
+        },
+        {
+            "text": "record,",
+            "start": 2670,
+            "end": 3062,
+            "confidence": 0.97407,
+            "speaker": null
+        },
+        {
+            "text": "measured",
+            "start": 3166,
+            "end": 3582,
+            "confidence": 0.95986,
+            "speaker": null
+        },
+        {
+            "text": "15",
+            "start": 3646,
+            "end": 4062,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "inches",
+            "start": 4166,
+            "end": 4574,
+            "confidence": 0.84432,
+            "speaker": null
+        },
+        {
+            "text": "wide",
+            "start": 4622,
+            "end": 4942,
+            "confidence": 0.50304,
+            "speaker": null
+        },
+        {
+            "text": "and",
+            "start": 5006,
+            "end": 5254,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "eight",
+            "start": 5302,
+            "end": 5558,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "inches",
+            "start": 5614,
+            "end": 5910,
+            "confidence": 0.95729,
+            "speaker": null
+        },
+        {
+            "text": "thick,",
+            "start": 5950,
+            "end": 6150,
+            "confidence": 0.98835,
+            "speaker": null
+        },
+        {
+            "text": "falling",
+            "start": 6190,
+            "end": 6550,
+            "confidence": 0.7848,
+            "speaker": null
+        },
+        {
+            "text": "in",
+            "start": 6590,
+            "end": 6766,
+            "confidence": 0.99908,
+            "speaker": null
+        },
+        {
+            "text": "Fort",
+            "start": 6798,
+            "end": 7030,
+            "confidence": 0.8902,
+            "speaker": null
+        },
+        {
+            "text": "Kiot,",
+            "start": 7070,
+            "end": 7494,
+            "confidence": 0.14723,
+            "speaker": null
+        },
+        {
+            "text": "Montana,",
+            "start": 7542,
+            "end": 8262,
+            "confidence": 0.35765,
+            "speaker": null
+        },
+        {
+            "text": "in",
+            "start": 8406,
+            "end": 8686,
+            "confidence": 0.99754,
+            "speaker": null
+        },
+        {
+            "text": "1887.",
+            "start": 8718,
+            "end": 10078,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "The",
+            "start": 10214,
+            "end": 10510,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "average",
+            "start": 10550,
+            "end": 10878,
+            "confidence": 0.99618,
+            "speaker": null
+        },
+        {
+            "text": "person",
+            "start": 10934,
+            "end": 11270,
+            "confidence": 0.99983,
+            "speaker": null
+        },
+        {
+            "text": "laughs",
+            "start": 11350,
+            "end": 11878,
+            "confidence": 0.82389,
+            "speaker": null
+        },
+        {
+            "text": "about",
+            "start": 11934,
+            "end": 12198,
+            "confidence": 0.99916,
+            "speaker": null
+        },
+        {
+            "text": "15",
+            "start": 12254,
+            "end": 12614,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "times",
+            "start": 12702,
+            "end": 13022,
+            "confidence": 0.9997,
+            "speaker": null
+        },
+        {
+            "text": "a",
+            "start": 13086,
+            "end": 13286,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "day,",
+            "start": 13318,
+            "end": 13678,
+            "confidence": 0.99995,
+            "speaker": null
+        },
+        {
+            "text": "while",
+            "start": 13774,
+            "end": 14078,
+            "confidence": 0.99843,
+            "speaker": null
+        },
+        {
+            "text": "children",
+            "start": 14134,
+            "end": 14446,
+            "confidence": 0.99964,
+            "speaker": null
+        },
+        {
+            "text": "laugh",
+            "start": 14518,
+            "end": 15054,
+            "confidence": 0.99516,
+            "speaker": null
+        },
+        {
+            "text": "an",
+            "start": 15142,
+            "end": 15390,
+            "confidence": 0.4556,
+            "speaker": null
+        },
+        {
+            "text": "astonishing",
+            "start": 15430,
+            "end": 16062,
+            "confidence": 0.99951,
+            "speaker": null
+        },
+        {
+            "text": "400",
+            "start": 16126,
+            "end": 16694,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "times",
+            "start": 16742,
+            "end": 17094,
+            "confidence": 0.99943,
+            "speaker": null
+        },
+        {
+            "text": "a",
+            "start": 17182,
+            "end": 17358,
+            "confidence": 0.99,
+            "speaker": null
+        },
+        {
+            "text": "day.",
+            "start": 17374,
+            "end": 17526,
+            "confidence": 0.99969,
+            "speaker": null
+        },
+        {
+            "text": "A",
+            "start": 17558,
+            "end": 17702,
+            "confidence": 0.99,
+            "speaker": null
+        },
+        {
+            "text": "group",
+            "start": 17726,
+            "end": 17886,
+            "confidence": 0.99892,
+            "speaker": null
+        },
+        {
+            "text": "of",
+            "start": 17918,
+            "end": 18086,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "owls",
+            "start": 18118,
+            "end": 18582,
+            "confidence": 0.90855,
+            "speaker": null
+        },
+        {
+            "text": "is",
+            "start": 18646,
+            "end": 18846,
+            "confidence": 0.99935,
+            "speaker": null
+        },
+        {
+            "text": "called",
+            "start": 18878,
+            "end": 19118,
+            "confidence": 0.99986,
+            "speaker": null
+        },
+        {
+            "text": "a",
+            "start": 19174,
+            "end": 19366,
+            "confidence": 0.97,
+            "speaker": null
+        },
+        {
+            "text": "parliament.",
+            "start": 19398,
+            "end": 19918,
+            "confidence": 0.64577,
+            "speaker": null
+        },
+        {
+            "text": "Reflecting",
+            "start": 19974,
+            "end": 20598,
+            "confidence": 0.98962,
+            "speaker": null
+        },
+        {
+            "text": "their",
+            "start": 20654,
+            "end": 20894,
+            "confidence": 0.99943,
+            "speaker": null
+        },
+        {
+            "text": "wise",
+            "start": 20942,
+            "end": 21350,
+            "confidence": 0.68213,
+            "speaker": null
+        },
+        {
+            "text": "and",
+            "start": 21430,
+            "end": 21694,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "often",
+            "start": 21742,
+            "end": 22046,
+            "confidence": 0.99933,
+            "speaker": null
+        },
+        {
+            "text": "silent",
+            "start": 22118,
+            "end": 22598,
+            "confidence": 0.5077,
+            "speaker": null
+        },
+        {
+            "text": "nature,",
+            "start": 22654,
+            "end": 23134,
+            "confidence": 0.50255,
+            "speaker": null
+        },
+        {
+            "text": "the",
+            "start": 23262,
+            "end": 23526,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "human",
+            "start": 23558,
+            "end": 23798,
+            "confidence": 0.99983,
+            "speaker": null
+        },
+        {
+            "text": "brain",
+            "start": 23854,
+            "end": 24198,
+            "confidence": 0.97828,
+            "speaker": null
+        },
+        {
+            "text": "can",
+            "start": 24254,
+            "end": 24542,
+            "confidence": 0.99942,
+            "speaker": null
+        },
+        {
+            "text": "process",
+            "start": 24606,
+            "end": 25118,
+            "confidence": 0.9999,
+            "speaker": null
+        },
+        {
+            "text": "information",
+            "start": 25254,
+            "end": 25790,
+            "confidence": 0.99998,
+            "speaker": null
+        },
+        {
+            "text": "at",
+            "start": 25910,
+            "end": 26118,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "a",
+            "start": 26134,
+            "end": 26310,
+            "confidence": 0.48,
+            "speaker": null
+        },
+        {
+            "text": "speed",
+            "start": 26350,
+            "end": 26606,
+            "confidence": 0.92029,
+            "speaker": null
+        },
+        {
+            "text": "of",
+            "start": 26638,
+            "end": 26830,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "up",
+            "start": 26870,
+            "end": 27022,
+            "confidence": 0.99973,
+            "speaker": null
+        },
+        {
+            "text": "to",
+            "start": 27046,
+            "end": 27230,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "11",
+            "start": 27270,
+            "end": 27686,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "million",
+            "start": 27798,
+            "end": 28214,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "bits",
+            "start": 28302,
+            "end": 28718,
+            "confidence": 0.95388,
+            "speaker": null
+        },
+        {
+            "text": "per",
+            "start": 28774,
+            "end": 29038,
+            "confidence": 0.84,
+            "speaker": null
+        },
+        {
+            "text": "second,",
+            "start": 29094,
+            "end": 29430,
+            "confidence": 0.94,
+            "speaker": null
+        },
+        {
+            "text": "making",
+            "start": 29510,
+            "end": 29870,
+            "confidence": 0.99699,
+            "speaker": null
+        },
+        {
+            "text": "it",
+            "start": 29950,
+            "end": 30190,
+            "confidence": 0.33041,
+            "speaker": null
+        },
+        {
+            "text": "at",
+            "start": 30230,
+            "end": 30478,
+            "confidence": 0.57,
+            "speaker": null
+        },
+        {
+            "text": "remarkably",
+            "start": 30534,
+            "end": 31190,
+            "confidence": 0.99682,
+            "speaker": null
+        },
+        {
+            "text": "complex",
+            "start": 31270,
+            "end": 31954,
+            "confidence": 0.83598,
+            "speaker": null
+        },
+        {
+            "text": "and",
+            "start": 32062,
+            "end": 32306,
+            "confidence": 0.79,
+            "speaker": null
+        },
+        {
+            "text": "efficient",
+            "start": 32338,
+            "end": 32802,
+            "confidence": 0.99962,
+            "speaker": null
+        },
+        {
+            "text": "organ.",
+            "start": 32866,
+            "end": 33114,
+            "confidence": 0.99756,
+            "speaker": null
+        },
+        {
+            "text": "That",
+            "start": 33162,
+            "end": 33346,
+            "confidence": 0.68712,
+            "speaker": null
+        },
+        {
+            "text": "world's",
+            "start": 33378,
+            "end": 33834,
+            "confidence": 0.97457,
+            "speaker": null
+        },
+        {
+            "text": "smallest",
+            "start": 33882,
+            "end": 34354,
+            "confidence": 0.99981,
+            "speaker": null
+        },
+        {
+            "text": "mammal",
+            "start": 34402,
+            "end": 34770,
+            "confidence": 0.99578,
+            "speaker": null
+        },
+        {
+            "text": "is",
+            "start": 34810,
+            "end": 35034,
+            "confidence": 0.99618,
+            "speaker": null
+        },
+        {
+            "text": "the",
+            "start": 35082,
+            "end": 35242,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "bumblebee",
+            "start": 35266,
+            "end": 35850,
+            "confidence": 0.67492,
+            "speaker": null
+        },
+        {
+            "text": "bat.",
+            "start": 35890,
+            "end": 36242,
+            "confidence": 0.99522,
+            "speaker": null
+        },
+        {
+            "text": "Immeasuring",
+            "start": 36306,
+            "end": 36890,
+            "confidence": 0.61888,
+            "speaker": null
+        },
+        {
+            "text": "just",
+            "start": 36970,
+            "end": 37330,
+            "confidence": 0.99948,
+            "speaker": null
+        },
+        {
+            "text": "1.5",
+            "start": 37410,
+            "end": 38338,
+            "confidence": 0.91,
+            "speaker": null
+        },
+        {
+            "text": "inches",
+            "start": 38394,
+            "end": 38714,
+            "confidence": 0.99864,
+            "speaker": null
+        },
+        {
+            "text": "from",
+            "start": 38762,
+            "end": 38970,
+            "confidence": 0.99994,
+            "speaker": null
+        },
+        {
+            "text": "nose",
+            "start": 39010,
+            "end": 39226,
+            "confidence": 0.99813,
+            "speaker": null
+        },
+        {
+            "text": "to",
+            "start": 39258,
+            "end": 39450,
+            "confidence": 0.57,
+            "speaker": null
+        },
+        {
+            "text": "tail",
+            "start": 39490,
+            "end": 39994,
+            "confidence": 0.99372,
+            "speaker": null
+        },
+        {
+            "text": "and",
+            "start": 40122,
+            "end": 40362,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "weighing",
+            "start": 40386,
+            "end": 40778,
+            "confidence": 0.97755,
+            "speaker": null
+        },
+        {
+            "text": "only",
+            "start": 40834,
+            "end": 41122,
+            "confidence": 0.99948,
+            "speaker": null
+        },
+        {
+            "text": "2",
+            "start": 41186,
+            "end": 41458,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "grams,",
+            "start": 41514,
+            "end": 42146,
+            "confidence": 0.8,
+            "speaker": null
+        },
+        {
+            "text": "the",
+            "start": 42258,
+            "end": 42482,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "Great",
+            "start": 42506,
+            "end": 42714,
+            "confidence": 0.9997,
+            "speaker": null
+        },
+        {
+            "text": "Wall",
+            "start": 42762,
+            "end": 43002,
+            "confidence": 0.99205,
+            "speaker": null
+        },
+        {
+            "text": "of",
+            "start": 43026,
+            "end": 43186,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "China",
+            "start": 43218,
+            "end": 43794,
+            "confidence": 0.99995,
+            "speaker": null
+        },
+        {
+            "text": "is",
+            "start": 43962,
+            "end": 44242,
+            "confidence": 0.99954,
+            "speaker": null
+        },
+        {
+            "text": "the",
+            "start": 44266,
+            "end": 44426,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "only",
+            "start": 44458,
+            "end": 44650,
+            "confidence": 0.99991,
+            "speaker": null
+        },
+        {
+            "text": "human",
+            "start": 44690,
+            "end": 45154,
+            "confidence": 0.84178,
+            "speaker": null
+        },
+        {
+            "text": "made",
+            "start": 45282,
+            "end": 45570,
+            "confidence": 0.99565,
+            "speaker": null
+        },
+        {
+            "text": "structure",
+            "start": 45610,
+            "end": 46034,
+            "confidence": 0.67909,
+            "speaker": null
+        },
+        {
+            "text": "visible",
+            "start": 46082,
+            "end": 46474,
+            "confidence": 0.99996,
+            "speaker": null
+        },
+        {
+            "text": "from",
+            "start": 46522,
+            "end": 46778,
+            "confidence": 0.99989,
+            "speaker": null
+        },
+        {
+            "text": "space,",
+            "start": 46834,
+            "end": 47218,
+            "confidence": 0.9993,
+            "speaker": null
+        },
+        {
+            "text": "a",
+            "start": 47314,
+            "end": 47546,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "testament",
+            "start": 47578,
+            "end": 48010,
+            "confidence": 0.67894,
+            "speaker": null
+        },
+        {
+            "text": "to",
+            "start": 48050,
+            "end": 48178,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "the",
+            "start": 48194,
+            "end": 48370,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "ambition",
+            "start": 48410,
+            "end": 48914,
+            "confidence": 0.99837,
+            "speaker": null
+        },
+        {
+            "text": "and",
+            "start": 49002,
+            "end": 49274,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "ingenuity",
+            "start": 49322,
+            "end": 49978,
+            "confidence": 0.50756,
+            "speaker": null
+        },
+        {
+            "text": "of",
+            "start": 50034,
+            "end": 50202,
+            "confidence": 1,
+            "speaker": null
+        },
+        {
+            "text": "its",
+            "start": 50226,
+            "end": 50410,
+            "confidence": 0.9995,
+            "speaker": null
+        },
+        {
+            "text": "builders.",
+            "start": 50450,
+            "end": 50730,
+            "confidence": 0.99518,
+            "speaker": null
+        }
+    ]
 
-
-const captions : Array<Caption> = [
-    {
-        text: "The",
-        start: 640,
-        end: 800,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "average",
-        start: 800,
-        end: 1128,
-        confidence: 0.99777,
-        speaker: null
-    },
-    {
-        text: "lifespan",
-        start: 1174,
-        end: 1622,
-        confidence: 0.9386,
-        speaker: null
-    },
-    {
-        text: "of",
-        start: 1646,
-        end: 1758,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "a",
-        start: 1774,
-        end: 1878,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "goldfish",
-        start: 1894,
-        end: 2462,
-        confidence: 0.98666,
-        speaker: null
-    },
-    {
-        text: "is",
-        start: 2526,
-        end: 2750,
-        confidence: 0.99973,
-        speaker: null
-    },
-    {
-        text: "ten",
-        start: 2790,
-        end: 3062,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "years,",
-        start: 3126,
-        end: 3590,
-        confidence: 0.99972,
-        speaker: null
-    },
-    {
-        text: "which",
-        start: 3710,
-        end: 3942,
-        confidence: 0.9998,
-        speaker: null
-    },
-    {
-        text: "is",
-        start: 3966,
-        end: 4150,
-        confidence: 0.99982,
-        speaker: null
-    },
-    {
-        text: "much",
-        start: 4190,
-        end: 4438,
-        confidence: 0.99988,
-        speaker: null
-    },
-    {
-        text: "longer",
-        start: 4494,
-        end: 4846,
-        confidence: 0.99997,
-        speaker: null
-    },
-    {
-        text: "than",
-        start: 4878,
-        end: 5070,
-        confidence: 0.99977,
-        speaker: null
-    },
-    {
-        text: "many",
-        start: 5110,
-        end: 5310,
-        confidence: 0.99985,
-        speaker: null
-    },
-    {
-        text: "people",
-        start: 5350,
-        end: 5598,
-        confidence: 0.99963,
-        speaker: null
-    },
-    {
-        text: "believe.",
-        start: 5654,
-        end: 6250,
-        confidence: 0.99964,
-        speaker: null
-    },
-    {
-        text: "The",
-        start: 6790,
-        end: 7126,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "world's",
-        start: 7158,
-        end: 7526,
-        confidence: 0.61277,
-        speaker: null
-    },
-    {
-        text: "smallest",
-        start: 7558,
-        end: 8022,
-        confidence: 0.99992,
-        speaker: null
-    },
-    {
-        text: "mammal",
-        start: 8086,
-        end: 8590,
-        confidence: 0.90166,
-        speaker: null
-    },
-    {
-        text: "is",
-        start: 8670,
-        end: 8838,
-        confidence: 0.99979,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 8854,
-        end: 8958,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "bumblebee",
-        start: 8974,
-        end: 9462,
-        confidence: 0.38466,
-        speaker: null
-    },
-    {
-        text: "bat.",
-        start: 9486,
-        end: 9990,
-        confidence: 0.98574,
-        speaker: null
-    },
-    {
-        text: "Weighing",
-        start: 10110,
-        end: 10510,
-        confidence: 0.9989,
-        speaker: null
-    },
-    {
-        text: "in",
-        start: 10550,
-        end: 10774,
-        confidence: 0.9988,
-        speaker: null
-    },
-    {
-        text: "at",
-        start: 10822,
-        end: 10982,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "a",
-        start: 11006,
-        end: 11118,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "mere",
-        start: 11134,
-        end: 11374,
-        confidence: 0.98392,
-        speaker: null
-    },
-    {
-        text: "2",
-        start: 11422,
-        end: 11654,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "grams,",
-        start: 11702,
-        end: 12326,
-        confidence: 0.45,
-        speaker: null
-    },
-    {
-        text: "about",
-        start: 12438,
-        end: 12710,
-        confidence: 0.99683,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 12750,
-        end: 12926,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "size",
-        start: 12958,
-        end: 13190,
-        confidence: 0.99966,
-        speaker: null
-    },
-    {
-        text: "of",
-        start: 13230,
-        end: 13358,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "a",
-        start: 13374,
-        end: 13478,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "bumblebee,",
-        start: 13494,
-        end: 14478,
-        confidence: 0.69696,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 14654,
-        end: 14966,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "human",
-        start: 14998,
-        end: 15238,
-        confidence: 0.99984,
-        speaker: null
-    },
-    {
-        text: "brain",
-        start: 15294,
-        end: 15638,
-        confidence: 0.9927,
-        speaker: null
-    },
-    {
-        text: "is",
-        start: 15694,
-        end: 15934,
-        confidence: 0.99989,
-        speaker: null
-    },
-    {
-        text: "more",
-        start: 15982,
-        end: 16190,
-        confidence: 0.99984,
-        speaker: null
-    },
-    {
-        text: "active",
-        start: 16230,
-        end: 16486,
-        confidence: 0.93294,
-        speaker: null
-    },
-    {
-        text: "at",
-        start: 16518,
-        end: 16686,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "night",
-        start: 16718,
-        end: 16982,
-        confidence: 0.99995,
-        speaker: null
-    },
-    {
-        text: "than",
-        start: 17046,
-        end: 17246,
-        confidence: 0.99782,
-        speaker: null
-    },
-    {
-        text: "during",
-        start: 17278,
-        end: 17470,
-        confidence: 0.99991,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 17510,
-        end: 17710,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "day,",
-        start: 17750,
-        end: 18310,
-        confidence: 0.99988,
-        speaker: null
-    },
-    {
-        text: "making",
-        start: 18470,
-        end: 18814,
-        confidence: 0.99998,
-        speaker: null
-    },
-    {
-        text: "it",
-        start: 18862,
-        end: 18998,
-        confidence: 0.99986,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 19014,
-        end: 19190,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "perfect",
-        start: 19230,
-        end: 19574,
-        confidence: 0.99993,
-        speaker: null
-    },
-    {
-        text: "time",
-        start: 19622,
-        end: 19926,
-        confidence: 0.99978,
-        speaker: null
-    },
-    {
-        text: "for",
-        start: 19998,
-        end: 20206,
-        confidence: 0.99987,
-        speaker: null
-    },
-    {
-        text: "learning",
-        start: 20238,
-        end: 20534,
-        confidence: 0.93326,
-        speaker: null
-    },
-    {
-        text: "and",
-        start: 20582,
-        end: 20766,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "problem",
-        start: 20798,
-        end: 21158,
-        confidence: 0.99985,
-        speaker: null
-    },
-    {
-        text: "solving.",
-        start: 21254,
-        end: 21970,
-        confidence: 0.66192,
-        speaker: null
-    },
-    {
-        text: "The",
-        start: 22350,
-        end: 22686,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "Great",
-        start: 22718,
-        end: 22982,
-        confidence: 0.99947,
-        speaker: null
-    },
-    {
-        text: "Barrier",
-        start: 23046,
-        end: 23566,
-        confidence: 0.62766,
-        speaker: null
-    },
-    {
-        text: "Reef,",
-        start: 23598,
-        end: 24126,
-        confidence: 0.99022,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 24238,
-        end: 24486,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "largest",
-        start: 24518,
-        end: 24958,
-        confidence: 0.99982,
-        speaker: null
-    },
-    {
-        text: "coral",
-        start: 25014,
-        end: 25390,
-        confidence: 0.82771,
-        speaker: null
-    },
-    {
-        text: "reef",
-        start: 25430,
-        end: 25734,
-        confidence: 0.97761,
-        speaker: null
-    },
-    {
-        text: "system",
-        start: 25782,
-        end: 26014,
-        confidence: 0.99981,
-        speaker: null
-    },
-    {
-        text: "in",
-        start: 26062,
-        end: 26174,
-        confidence: 0.9995,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 26182,
-        end: 26326,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "world,",
-        start: 26358,
-        end: 27000,
-        confidence: 0.98835,
-        speaker: null
-    },
-    {
-        text: "is",
-        start: 27190,
-        end: 27540,
-        confidence: 0.95258,
-        speaker: null
-    },
-    {
-        text: "actually",
-        start: 27580,
-        end: 27924,
-        confidence: 0.99956,
-        speaker: null
-    },
-    {
-        text: "made",
-        start: 28012,
-        end: 28236,
-        confidence: 0.99997,
-        speaker: null
-    },
-    {
-        text: "up",
-        start: 28268,
-        end: 28412,
-        confidence: 0.99982,
-        speaker: null
-    },
-    {
-        text: "of",
-        start: 28436,
-        end: 28668,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "billions",
-        start: 28724,
-        end: 29252,
-        confidence: 0.9996,
-        speaker: null
-    },
-    {
-        text: "of",
-        start: 29276,
-        end: 29460,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "tiny",
-        start: 29500,
-        end: 29884,
-        confidence: 0.88999,
-        speaker: null
-    },
-    {
-        text: "organisms",
-        start: 29932,
-        end: 30564,
-        confidence: 0.92749,
-        speaker: null
-    },
-    {
-        text: "called",
-        start: 30612,
-        end: 31060,
-        confidence: 0.97936,
-        speaker: null
-    },
-    {
-        text: "coral",
-        start: 31180,
-        end: 31620,
-        confidence: 0.99581,
-        speaker: null
-    },
-    {
-        text: "polyps.",
-        start: 31660,
-        end: 32560,
-        confidence: 0.53898,
-        speaker: null
-    },
-    {
-        text: "The",
-        start: 32860,
-        end: 33196,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "earth's",
-        start: 33228,
-        end: 33556,
-        confidence: 0.56933,
-        speaker: null
-    },
-    {
-        text: "atmosphere",
-        start: 33588,
-        end: 34228,
-        confidence: 0.86,
-        speaker: null
-    },
-    {
-        text: "is",
-        start: 34284,
-        end: 34500,
-        confidence: 0.99977,
-        speaker: null
-    },
-    {
-        text: "constantly",
-        start: 34540,
-        end: 35140,
-        confidence: 0.68232,
-        speaker: null
-    },
-    {
-        text: "moving,",
-        start: 35180,
-        end: 35852,
-        confidence: 0.88518,
-        speaker: null
-    },
-    {
-        text: "creating",
-        start: 36036,
-        end: 36564,
-        confidence: 0.9997,
-        speaker: null
-    },
-    {
-        text: "winds",
-        start: 36612,
-        end: 37020,
-        confidence: 0.99948,
-        speaker: null
-    },
-    {
-        text: "that",
-        start: 37060,
-        end: 37260,
-        confidence: 0.9999,
-        speaker: null
-    },
-    {
-        text: "can",
-        start: 37300,
-        end: 37524,
-        confidence: 0.99932,
-        speaker: null
-    },
-    {
-        text: "travel",
-        start: 37572,
-        end: 37948,
-        confidence: 0.87721,
-        speaker: null
-    },
-    {
-        text: "thousands",
-        start: 38004,
-        end: 38468,
-        confidence: 0.99972,
-        speaker: null
-    },
-    {
-        text: "of",
-        start: 38484,
-        end: 38660,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "miles.",
-        start: 38700,
-        end: 39360,
-        confidence: 0.68,
-        speaker: null
-    },
-    {
-        text: "The",
-        start: 39780,
-        end: 40116,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "population",
-        start: 40148,
-        end: 40596,
-        confidence: 0.99993,
-        speaker: null
-    },
-    {
-        text: "of",
-        start: 40668,
-        end: 40852,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "the",
-        start: 40876,
-        end: 41060,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "earth",
-        start: 41100,
-        end: 41388,
-        confidence: 0.99991,
-        speaker: null
-    },
-    {
-        text: "is",
-        start: 41444,
-        end: 41684,
-        confidence: 0.9999,
-        speaker: null
-    },
-    {
-        text: "estimated",
-        start: 41732,
-        end: 42236,
-        confidence: 0.9997,
-        speaker: null
-    },
-    {
-        text: "to",
-        start: 42268,
-        end: 42412,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "be",
-        start: 42436,
-        end: 42620,
-        confidence: 0.99845,
-        speaker: null
-    },
-    {
-        text: "over",
-        start: 42660,
-        end: 42980,
-        confidence: 0.99653,
-        speaker: null
-    },
-    {
-        text: "8",
-        start: 43060,
-        end: 43372,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "billion",
-        start: 43436,
-        end: 43780,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "people,",
-        start: 43860,
-        end: 44460,
-        confidence: 0.99972,
-        speaker: null
-    },
-    {
-        text: "with",
-        start: 44620,
-        end: 44892,
-        confidence: 0.99958,
-        speaker: null
-    },
-    {
-        text: "an",
-        start: 44916,
-        end: 45100,
-        confidence: 0.99903,
-        speaker: null
-    },
-    {
-        text: "average",
-        start: 45140,
-        end: 45436,
-        confidence: 0.99919,
-        speaker: null
-    },
-    {
-        text: "of",
-        start: 45468,
-        end: 45660,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "150",
-        start: 45700,
-        end: 46492,
-        confidence: 1,
-        speaker: null
-    },
-    {
-        text: "babies",
-        start: 46556,
-        end: 46948,
-        confidence: 0.55212,
-        speaker: null
-    },
-    {
-        text: "born",
-        start: 47004,
-        end: 47372,
-        confidence: 0.8461,
-        speaker: null
-    },
-    {
-        text: "every",
-        start: 47436,
-        end: 47708,
-        confidence: 0.99684,
-        speaker: null
-    },
-    {
-        text: "minute.",
-        start: 47764,
-        end: 47940,
-        confidence: 0.99,
-        speaker: null
-    }
-]
 
 function getCaptionsInRange(startTime: number, endTime: number) {
     return captions
-        .filter(caption => caption.start >= startTime && caption.end <= endTime)
+        .filter(caption => caption.start < endTime && caption.end > startTime)
         .map(caption => caption.text)
         .join(' ');
 }
 
-export const MyVideo: React.FC = () => {
+export const MyVideo: React.FC<{test : string}> = ({test}) => {
+
+    console.log(test)
     const frame = useCurrentFrame();
 
-
-    const frameInCurrentImage = frame % 120;
+    const frameInCurrentImage = frame % 240;
 
     // Interpolate based on the frame within the current image's window
     const interpolated = interpolate(frameInCurrentImage, [0, 30], [1, 1.1], {
         extrapolateLeft: "clamp",
         extrapolateRight: "clamp",
     });
-    const imageIndex = Math.floor(frame / 120);
+    const imageIndex = Math.floor(frame / 240);
     const currentIndex = imageIndex % images.length;
     const captionTime = Math.round(frame / 30) * 1000;
 
 
-    // Display each image for 120 frames (4 seconds at 30fps)
+    const captions: string = getCaptionsInRange(captionTime - 2000, captionTime + 2000);
+
     return (
         <>
             <div>
@@ -891,17 +923,21 @@ export const MyVideo: React.FC = () => {
             </div>
             <div style={{
                 position: 'absolute',
-                bottom: '5%',
+                bottom: '10%',
                 width: '100%',
                 fontWeight: 'bold',
                 textAlign: 'center',
-                fontSize: '30px',
-                color: 'white',
+                fontSize: '20px',
                 padding: '10px',
+                color: 'white',
                 borderRadius: '10px',
+                maxHeight: '60px',
             }}>
-                {getCaptionsInRange(captionTime, captionTime + 1000)}
+                {captions}
+
             </div>
+
+            <Audio volume={1} src={staticFile("/audios/fdeff5b0-8ea4-45a7-aeac-6c32d8a6a4da.mp3")} />
         </>
     );
 };

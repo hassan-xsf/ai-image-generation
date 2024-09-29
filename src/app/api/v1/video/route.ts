@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
         // const {prompt} = body;
 
         const prompt = `
-        context will be facts. Provide 6 random facts of about 2 lines each and make them sound good. For each fact, create a corresponding prompt for image generation. 
+        context will be facts. Provide 6 random facts of letters that takes around 8 seconds to spell and make them sound good. For each fact make sure they are in a numbered list, create a corresponding prompt for image generation. 
         The response should be formatted as JSON with the following structure: 
         
         {

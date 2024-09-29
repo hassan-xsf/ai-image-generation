@@ -14,27 +14,30 @@ import { MyVideo } from '@/remotion/MyVideo';
 const Generate = () => {
 
     const { register, handleSubmit } = useForm()
-    const [promptStatus, setPromptStatus] = useState<"Still" | "Loading Data" | "Loading Images" | "Loaded">("Still")
+    const [promptStatus, setPromptStatus] = useState<string>("Still")
     const [promptData, setpromptData] = useState<null | PromptType>(null)
 
     const onGenerate = async () => {
         try {
-            setPromptStatus("Loading Data")
+            setPromptStatus("Loading data...")
             const res = await axios.post<AxiosResponse<PromptType>>('api/v1/video')
 
             console.log(res.data.data.data)
 
             setpromptData(res.data.data)
-            setPromptStatus("Loaded")
-            const captions = res.data.data.data.map(e => e.imageText).join('              ')
+            setPromptStatus("Loading audio and captions...")
+            const captions = res.data.data.data.map(e => e.imageText).join('')
             const audio = await axios.post('api/v1/audio' , {captions})
             console.log(audio.data.data)
 
 
-            setPromptStatus("Loading Images")
+            setPromptStatus("Loading images...")
 
             const promises = res.data.data.data.map((e: Prompt) => axios.get(e.imageLink))
             await Promise.all(promises)
+
+            setPromptStatus("Loaded")
+
 
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -59,13 +62,15 @@ const Generate = () => {
             <h4 className="text-xl font-light text-zinc-200 italic pb-4">Stage: {promptStatus}</h4>
             <Player
                 component={MyVideo}
-                durationInFrames={30 * 12}
+                durationInFrames={30 * 8 * 5}
                 compositionWidth={600}
                 compositionHeight={800}
                 fps={30}
                 controls
+                inputProps={{test: "hello"}}
+            
             />
-            <div className="grid grid-cols-3 gap-2 rounded-md min-h-[30vh] w-1/3">
+            {/* <div className="grid grid-cols-3 gap-2 rounded-md min-h-[30vh] w-1/3">
                 {
                     promptStatus === "Loaded" && promptData != null && (
                         promptData.data.map((e, indx) => (
@@ -79,7 +84,7 @@ const Generate = () => {
                         ))
                     )
                 }
-            </div>
+            </div> */}
         </div>
     )
 }
