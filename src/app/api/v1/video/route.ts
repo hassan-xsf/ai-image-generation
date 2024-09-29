@@ -1,67 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { PromptType } from "@/types/promptType";
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_KEY!);
+
+const apiKey = process.env.GOOGLE_GEMINI_KEY!;
+
+
+const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export async function POST(req: NextRequest) {
     try {
-        // const body = await req.json();
-        // const {prompt} = body;
 
-        
-        //const context = "context will be facts. Generate 6 random facts, each fact may take around 7 seconds to finish if an AI reads it and make them sound good, create a corresponding prompt for image generation. ";
+        const body = await req.json();
+        const { contextProvided } = body;
 
-        const context = "context will be funny story in english, Generate 30 second funny story generate 6 random lines each line may take around 7 second for AI to read,  create a corresponding prompt for image generation."
+        // const context = "The context will be a scary story. Generate a scary story, make it sound scaryt as hell with 5 parts, ";
+        const context = contextProvided?.length > 2 ? "The context is related to " + contextProvided : "The context will be totally random, Could be either of games, facts , technologies , scary story , fairy tale stories , ai news , jokes etc";
+        console.log(context)
+        // const context = "The context will be facts about technology. Generate unique and very intelligent facts in 5 parts, ";
+
         const prompt = `
-        ${context}
-        The response should be formatted as JSON with the following structure: 
-        
+        ${context} Make sure that the content generated is always random and different, Each part must not have more than 150 characters. Each part should take around 7 seconds to read aloud if an AI narrates it. This is for image text, so ensure that the story parts are engaging and well-structured, creating a corresponding prompt for image generation.
+
+        Please provide a response only in JSON format, structured as follows:
+
         {
-          "data": [
-            { 
-              "imageText": "<fact_text>", 
-              "imageLink": "<image_url>" 
-            }, 
-            ...
-          ]
+            "data": [
+                "part 1",
+                "part 2",
+                "part 3",
+                "part 4",
+                "part 5",
+                "part 6"
+            ]
         }
-        
-        The "imageLink" field should follow the format: 
-        https://image.pollinations.ai/prompt/{description}?width=600&height=600&nologo=true&model=turbo, where {description} is an encoded prompt following this pattern: {sceneDetailed}%20{adjective}%20{charactersDetailed}%20{visualStyle}%20{genre}%20{artistReference}.
-        
-        Do not include any code blocks or markdown in the response. Only return valid JSON.
+
+        Only return valid JSON and do not include any code blocks or markdown in the response.
         `;
 
-
         const result = await model.generateContent(prompt);
-        let finalResult: PromptType;
+        const resultText = result.response.text();
 
         try {
-            finalResult = JSON.parse(result.response.text());
-        } catch (error) {
+            const finalResult = JSON.parse(resultText);
+            return NextResponse.json({
+                success: true,
+                data: finalResult,
+            }, { status: 200 });
+        }
+        catch {
             return NextResponse.json({
                 success: false,
-                message: "Error while generating the prompt! Please try again with valid prompt",
-            },
-                { status: 200 }
-            );
+                message: "There was a problem generating prompt! Please try again",
+            }, { status: 400 });
         }
-        return NextResponse.json({
-            success: true,
-            data: finalResult,
-        },
-            { status: 200 }
-        );
-    }
-    catch (error) {
-        console.log(error)
+
+    } catch (error) {
+        console.error("Error generating content:", error);
         return NextResponse.json({
             success: false,
-            message: "There was a problem, Please try again",
-        },
-            { status: 500 }
-        );
+            message: "There was a problem. Please try again.",
+        }, { status: 500 });
     }
 }
