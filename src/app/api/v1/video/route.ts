@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
 
         // const context = "The context will be a scary story. Generate a scary story, make it sound scaryt as hell with 5 parts, ";
         const context = contextProvided?.length > 2 ? "The context is related to " + contextProvided : "The context will be totally random, Could be either of games, facts , technologies , scary story , fairy tale stories , ai news , jokes etc";
-        console.log(context)
         // const context = "The context will be facts about technology. Generate unique and very intelligent facts in 5 parts, ";
 
         const prompt = `

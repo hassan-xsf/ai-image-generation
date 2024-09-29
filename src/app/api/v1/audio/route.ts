@@ -12,13 +12,12 @@ const client = new AssemblyAI({
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { captions }: { captions: string } = body;
+        const { captions , model}: { captions: string  , model: string} = body;
 
-        // const speechBuffer = await unrealSpeech.stream(captions);
 
         const speechBuffer = await unrealSpeech.stream(
-            captions,    // text: string
-            "Dan",       // voiceId?: string (optional)
+            captions,  // text: string
+            model,     // voiceId?: string (optional)
         );
 
         const name = randomUUID();
