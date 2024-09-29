@@ -23,6 +23,7 @@ const Generate = () => {
             const res = await axios.post<AxiosResponse<PromptType>>('api/v1/video')
 
             console.log(res.data.data.data)
+
             setpromptData(res.data.data)
             setPromptStatus("Loaded")
             const captions = res.data.data.data.map(e => e.imageText).join('              ')

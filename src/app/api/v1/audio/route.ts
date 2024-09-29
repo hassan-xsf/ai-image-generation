@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import UnrealSpeech, { save } from "unrealspeech";
-import { AssemblyAI } from 'assemblyai';
+import { AssemblyAI, TranscriptWord } from 'assemblyai';
 
 const unrealSpeech = new UnrealSpeech("WMI7atwHMC1QkrNQP0tph8Nnintt43o9xMqLsglACTOwKH1J3GZKyB");
 const client = new AssemblyAI({
@@ -19,18 +19,23 @@ export async function POST(req: NextRequest) {
 
         save(speechBuffer, "audios/" + name + ".mp3");
 
+        let transcriptWords : Array<TranscriptWord> | undefined;
+
         const run = async () => {
-            const transcript = await client.transcripts.transcribe({ audio: "audios/" + name + ".mp3" });
-            console.log(transcript.text);
+            const transcript = await client.transcripts.transcribe({ audio: "audios/" + name + ".mp3"});
+            console.log(transcript.words)
+            transcriptWords = transcript.words!;
         };
 
-        run();
-
+        await run();
 
         return NextResponse.json({
             success: true,
             message: "Audio saved!",
-            data: name,
+            data: {
+                name,
+                transcript: transcriptWords,
+            } 
         }, { status: 200 });
 
 
