@@ -9,13 +9,20 @@ import { Button } from '@/components/ui/button'
 import { Player } from '@remotion/player';
 
 import { MyVideo } from '@/remotion/MyVideo';
+import type { Caption } from '@/types/caption';
 
 
 const Generate = () => {
 
     const { register, handleSubmit } = useForm()
     const [promptStatus, setPromptStatus] = useState<string>("Still")
-    const [promptData, setpromptData] = useState<null | PromptType>(null)
+
+    const [imageList, setimageList] = useState<Array<string>>([])
+    const [captions, setCaptions] = useState<Array<Caption>>([])
+    const [audioName, setaudioName] = useState<string>("")
+
+
+
 
     const onGenerate = async () => {
         try {
@@ -24,18 +31,21 @@ const Generate = () => {
 
             console.log(res.data.data.data)
 
-            setpromptData(res.data.data)
             setPromptStatus("Loading audio and captions...")
-            const captions = res.data.data.data.map(e => e.imageText).join('')
-            const audio = await axios.post('api/v1/audio' , {captions})
-            console.log(audio.data.data)
+            const captions = res.data.data.data.map(e => e.imageText).join('.............');
+            console.log(captions)
+            const imageLink = res.data.data.data.map(e => e.imageLink);
+            setimageList(imageLink)
 
+            const audio = await axios.post('api/v1/audio', { captions })
+            console.log(audio.data.data)
+            setCaptions(audio.data.data.transcript)
+            setaudioName(audio.data.data.name)
 
             setPromptStatus("Loading images...")
 
             const promises = res.data.data.data.map((e: Prompt) => axios.get(e.imageLink))
             await Promise.all(promises)
-
             setPromptStatus("Loaded")
 
 
@@ -60,31 +70,18 @@ const Generate = () => {
                 <Button className="bg-red-600 hover:bg-red-900">Enter</Button>
             </form>
             <h4 className="text-xl font-light text-zinc-200 italic pb-4">Stage: {promptStatus}</h4>
-            <Player
-                component={MyVideo}
-                durationInFrames={30 * 8 * 5}
-                compositionWidth={600}
-                compositionHeight={800}
-                fps={30}
-                controls
-                inputProps={{test: "hello"}}
-            
-            />
-            {/* <div className="grid grid-cols-3 gap-2 rounded-md min-h-[30vh] w-1/3">
-                {
-                    promptStatus === "Loaded" && promptData != null && (
-                        promptData.data.map((e, indx) => (
-                            <Image
-                                src={e.imageLink}
-                                alt={e.imageText}
-                                key={indx}
-                                width="600" height="600"
-                                priority
-                            />
-                        ))
-                    )
-                }
-            </div> */}
+            {
+                promptStatus === 'Loaded' &&
+                <Player
+                    component={MyVideo}
+                    durationInFrames={30 * 8 * 5}
+                    compositionWidth={600}
+                    compositionHeight={800}
+                    fps={30}
+                    controls
+                    inputProps={{ images: imageList, captions, audioName }}
+                />
+            }
         </div>
     )
 }

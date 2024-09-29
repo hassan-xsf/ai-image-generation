@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
 
         const speechBuffer = await unrealSpeech.stream(captions);
         const name = randomUUID();
+        save(speechBuffer, "public/audios/" + name + ".mp3");
 
-        await save(speechBuffer, "public/audios/" + name + ".mp3");
-
+        
         const transcript = await client.transcripts.transcribe({ audio: "public/audios/" + name + ".mp3" });
 
         return NextResponse.json({

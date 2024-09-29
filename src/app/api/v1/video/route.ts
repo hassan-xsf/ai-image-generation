@@ -10,8 +10,12 @@ export async function POST(req: NextRequest) {
         // const body = await req.json();
         // const {prompt} = body;
 
+        
+        //const context = "context will be facts. Generate 6 random facts, each fact may take around 7 seconds to finish if an AI reads it and make them sound good, create a corresponding prompt for image generation. ";
+
+        const context = "context will be funny story in english, Generate 30 second funny story generate 6 random lines each line may take around 7 second for AI to read,  create a corresponding prompt for image generation."
         const prompt = `
-        context will be facts. Provide 6 random facts of letters that takes around 8 seconds to spell and make them sound good. For each fact make sure they are in a numbered list, create a corresponding prompt for image generation. 
+        ${context}
         The response should be formatted as JSON with the following structure: 
         
         {
@@ -25,7 +29,7 @@ export async function POST(req: NextRequest) {
         }
         
         The "imageLink" field should follow the format: 
-        https://image.pollinations.ai/prompt/{description}?width=600&height=600, where {description} is an encoded prompt following this pattern: {sceneDetailed}%20{adjective}%20{charactersDetailed}%20{visualStyle}%20{genre}%20{artistReference}.
+        https://image.pollinations.ai/prompt/{description}?width=600&height=600&nologo=true&model=turbo, where {description} is an encoded prompt following this pattern: {sceneDetailed}%20{adjective}%20{charactersDetailed}%20{visualStyle}%20{genre}%20{artistReference}.
         
         Do not include any code blocks or markdown in the response. Only return valid JSON.
         `;
@@ -44,7 +48,6 @@ export async function POST(req: NextRequest) {
                 { status: 200 }
             );
         }
-
         return NextResponse.json({
             success: true,
             data: finalResult,
